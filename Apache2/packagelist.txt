@@ -1,0 +1,2 @@
+php php7.0-gd php7.0-mysql php7.0-cli php7.0-common php7.0-curl php7.0-opcache php7.0-json php7.0-imap php7.0-mbstring php7.0-xml apache2 libapache2-mod-security2 libapache2-mod-fastcgi 
+
