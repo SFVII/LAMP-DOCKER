@@ -3,9 +3,9 @@
 
 #Maintenair brice.daupiard@smartiiz.com
 
-ACTION = $1;
-FOCUS  = $2;
-DEV_WORK_DIRECTORY = $3
+ACTION=$1;
+FOCUS=$2;
+DEV_WORK_DIRECTORY=$3;
 
 InstallApachePHP(){
     echo "START BUILDING CUSTOM SMARTIIZ IMAGE";
@@ -32,10 +32,10 @@ InstallApachePHP(){
     mkdir mysql;
     
     echo "LAUNCH CONTAINER";
-    docker run --rm -d -tt -p 8080:80    --name apache2-dev --restart=always  -v $DEV_WORK_DIRECTORY/Conf/apache2/sites-enabled:/etc/apache2/sites-enabled -v $DEV_WORK_DIRECTORY/projects:/var/www  smartiiz/apache2 
-    docker run --rm -d -tt -p 8083:3306  --name mysql-dev   --restart=always  -v $DEV_WORK_DIRECTORY/mysql:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=smartiiz mysql
-    docker run --rm  -d -p 8080:80       --name myadmin     --restart=always -e PMA_ARBITRARY=1  phpmyadmin/phpmyadmin
-    docker run --rm -d -tt -p 80:80      --name nginx-dev   --restart=always  -v $DEV_WORK_DIRECTORY/Conf/nginx:/etc/nginx/sites-enabled smartiiz/nginx
+    docker run  -d -tt -p 8080:80    --name apache2-dev --restart=always  -v $DEV_WORK_DIRECTORY/Conf/apache2/sites-enabled:/etc/apache2/sites-enabled -v $DEV_WORK_DIRECTORY/projects:/var/www  smartiiz/apache2 
+    docker run  -d -tt -p 8083:3306  --name mysql-dev   --restart=always  -v $DEV_WORK_DIRECTORY/mysql:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=smartiiz mysql
+    docker run   -d -p 8080:80       --name myadmin     --restart=always -e PMA_ARBITRARY=1  phpmyadmin/phpmyadmin
+    docker run  -d -tt -p 80:80      --name nginx-dev   --restart=always  -v $DEV_WORK_DIRECTORY/Conf/nginx:/etc/nginx/sites-enabled smartiiz/nginx
     
     echo "COUNTAINER LAUNCHED";
     docker ps -a;
@@ -163,18 +163,14 @@ stop(){
     fi;
 }
 
-if [ $ACTION = "Install"]; then
-    InstallApachePHP();
-fi;
-
-if [ $ACTION = "start"]; then
-    start();
-fi;
-
-if [ $ACTION = "restart"]; then
-    restart();
-fi;
-
-if [ $ACTION = "stop"]; then
-    stop();
+if [ "$ACTION" == "Install" ]; then
+    InstallApachePHP
+elif [ "$ACTION" == "start" ]; then
+    start
+elif [ "$ACTION" == "restart" ]; then
+    restart
+elif [ "$ACTION" == "stop" ]; then
+    stop
+else
+    echo "Nothing to do";
 fi;
