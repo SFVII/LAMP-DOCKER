@@ -3,7 +3,7 @@
 
 FROM phusion/baseimage:latest
 
-MAINTAINER SFVII (brice@nippon.wtf)
+MAINTAINER SMARTIIZ (brice.daupiard@smartiiz.com)
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV NGINX_CONF /etc/nginx/nginx.conf
@@ -18,8 +18,8 @@ RUN apt-get -y --force-yes install dpkg-dev debhelper
 ADD  packagelist.txt /tmp/packagelist.txt
 RUN  apt-get install --force-yes -y $(cat /tmp/packagelist.txt);
 RUN  echo "exit 0" > /usr/sbin/policy-rc.d
-ADD start_services.sh /start_services.sh
-RUN chmod +x /start_services.sh
+ADD  start_services.sh /start_services.sh
+RUN  chmod +x /start_services.sh
 ENTRYPOINT ["/start_services.sh"]
 EXPOSE 80
 CMD ["/sbin/my_init && echo 'Container is ready' && /bin/sh "]
